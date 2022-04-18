@@ -1,4 +1,3 @@
-
 local Keys = {
 	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57, 
 	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177, 
@@ -26,11 +25,11 @@ local Truck = {"HAULER", "PACKER", "PHANTOM"}
 local Trailer = {"TANKER", "TRAILERS", "TRAILERS2", "TRAILERLOGS"}
 
 local MissionData = {
-    [0] = {1201.6727, 2637.9348, 37.8993, 126.2420}, --x,y,z,money
-    [1] = {2547.1746, 342.9130, 108.5326, 83.0332},
-    [2] = {-2535.9912, 2344.9094, 33.1313, 36.0890},
-    [3] = {1699.6658, 4913.9136, 42.1649, 236.4212},
-    [4] = {196.5617, 6631.0967, 31.53, 30000},
+    [1] = {1201.6727, 2637.9348, 37.8993, 1000}, --x,y,z,money
+    [2] = {2547.1746, 342.9130, 108.5326, 2500},
+    [3] = {-2535.9912, 2344.9094, 33.1313, 3000 },
+    [4] = {1699.6658, 4913.9136, 42.1649, 5000},
+    [5] = {196.5617, 6631.0967, 31.53, 6000},
 
 }
 local MISSION = {}
@@ -195,7 +194,7 @@ function tick()
         if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
             TriggerEvent("mt:missiontext", "You gained $"..currentMission[4], 5000)
             MISSION.removeMarker()
-            MISSION.getMoney()
+            TriggerServerEvent('truckingjob:givemoney', currentMission[4])
             clear()
         elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
             TriggerEvent("mt:missiontext", "Arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
@@ -296,10 +295,7 @@ function MISSION.removeMarker()
     SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 2) --invisible
 end
 
-function MISSION.getMoney()
-   TriggerEvent("es:addedMoney", currentMission[4])
-    TriggerEvent("truckerJob:getMoney", currentMission[4])
-end
+
 
 function GUI.drawStartText()
     TriggerEvent("mt:missiontext", "Do you want to be a truck driver? Press ~r~E~w~ to start.", 500)
@@ -326,11 +322,11 @@ function GUI.init()
     
     GUI.buttonCount = 0
     
-    GUI.addButton(1, "Mission 1 [ $1000 ]", GUI.mission, 0.35, 0.25, 0.3, 0.05)
-    GUI.addButton(1, "Mission 2 [ $2500 ]", GUI.mission, 0.35, 0.30, 0.3, 0.05)
-    GUI.addButton(1, "Mission 3 [ $3000 ]", GUI.mission, 0.35, 0.35, 0.3, 0.05)
-    GUI.addButton(1, "Mission 4 [ $5000 ]", GUI.mission, 0.35, 0.40, 0.3, 0.05)
-    GUI.addButton(1, "Mission 5 [ $6000 ]", GUI.mission, 0.35, 0.45, 0.3, 0.05)
+    GUI.addButton(1, "Harmony [ $1000 ]", GUI.mission, 0.35, 0.25, 0.3, 0.05)
+    GUI.addButton(1, "Palamino Freeway [ $2500 ]", GUI.mission, 0.35, 0.30, 0.3, 0.05)
+    GUI.addButton(1, "Route68 / GOH  [ $3000 ]", GUI.mission, 0.35, 0.35, 0.3, 0.05)
+    GUI.addButton(1, "Grapeseed Gas Station[ $5000 ]", GUI.mission, 0.35, 0.40, 0.3, 0.05)
+    GUI.addButton(1, "Paleto Gas Station [ $6000 ]", GUI.mission, 0.35, 0.45, 0.3, 0.05)
     GUI.addButton(1, "Exit Menu", GUI.exit, 0.35, 0.55, 0.3, 0.05)
 end
 
